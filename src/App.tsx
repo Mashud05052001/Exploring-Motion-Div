@@ -5,9 +5,9 @@ function App() {
   const [show, setShow] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
+    // stiffness: 100,
+    damping: 20,
+    restDelta: 0.01,
   });
   return (
     <div>
@@ -24,6 +24,12 @@ function App() {
           backgroundColor: "#ff0088",
         }}
       />
+      <motion.div
+        // style={{ originY: 1 }}
+        animate={{ rotateX: 360 }}
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="w-20 h-20 bg-red-200 rounded-md absolute top-80 left-20"
+      ></motion.div>
       <div className="flex items-center justify-center h-screen relative">
         <AnimatePresence initial={false}>
           {show ? (
@@ -31,10 +37,22 @@ function App() {
               // initial={{ scale: 0 }}
               animate={{
                 scale: 1,
+                opacity: 1,
+                skew: -10,
+                rotate: 45,
               }}
-              initial={{ backgroundColor: "rgb(0, 255, 0)", opacity: 0 }}
-              whileInView={{ backgroundColor: "rgb(255, 0, 0)", opacity: 1 }}
-              exit={{ opacity: 0 }}
+              transition={{ type: "spring" }}
+              initial={{
+                backgroundColor: "rgb(0, 255, 0)",
+                opacity: 0,
+                scale: 0,
+              }}
+              whileInView={{
+                backgroundColor: "rgb(255, 0, 0)",
+                opacity: 1,
+                scale: 1,
+              }}
+              exit={{ opacity: 0, scale: 0 }}
               // whileHover={{ scale: 1.1 }}
               // whileTap={{ scale: 0.95 }}
               // onHoverStart={() => console.log("hover started!")}
@@ -45,7 +63,6 @@ function App() {
             </motion.div>
           ) : null}
         </AnimatePresence>
-
         <div className="absolute top-3/4 -translate-y-24 left-1/2 -translate-x-1/2">
           <motion.button
             whileHover={{ scale: 1.05 }}
